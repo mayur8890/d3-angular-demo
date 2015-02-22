@@ -66,6 +66,44 @@
   });
 
 
+   $scope.fakeWeather = function () {
+    graphData = [$scope.temp,  $scope.humidity, $scope.pressure, $scope.wind];
+
+    yScale = d3.scale.linear()
+   .domain([0, d3.max(graphData)])
+   .range([0, h]);
+
+   colorScale = d3.scale.quantize()
+   .domain([0, graphData.length])
+   .range(['orange', 'purple', 'red', 'green']);
+
+   xScale = d3.scale.ordinal()
+   .domain(graphData)
+   .rangeBands([0, w], 0.1, 0);
+
+     svg.selectAll('rect')
+     .data(graphData)
+     .transition()
+     .duration(250)
+     .delay(function (d, i) {
+      return i * 25;
+     })
+     .transition()
+     .duration(250)
+     .attr('x', function (d) {
+      return xScale(d);
+    })
+     .transition()
+     .duration(500)
+     .attr('y', function (d) {
+      return h - yScale(d);
+    })
+     .attr('width', xScale.rangeBand())
+     .attr('height', function (d) {
+      return yScale(d);
+    });
+   };
+
    $scope.searchWeather = function () {
     WeatherDataService.getWeather($scope.searchTerm)
     .then(function(data) {
@@ -84,7 +122,7 @@
 
    colorScale = d3.scale.quantize()
    .domain([0, graphData.length])
-   .range(['orange', 'purple', 'red', 'green', 'black']);
+   .range(['orange', 'purple', 'red', 'green']);
 
    xScale = d3.scale.ordinal()
    .domain(graphData)
@@ -93,11 +131,17 @@
      svg.selectAll('rect')
      .data(graphData)
      .transition()
-     .duration(500)
-     .delay(250)
+     .duration(250)
+     .delay(function (d, i) {
+      return i * 25;
+     })
+     .transition()
+     .duration(250)
      .attr('x', function (d) {
       return xScale(d);
     })
+     .transition()
+     .duration(500)
      .attr('y', function (d) {
       return h - yScale(d);
     })
