@@ -74,8 +74,6 @@ angular.module('angularD3App')
  					return i * 25;
  				})
  				.transition()
- 				.duration(250)
- 				.transition()
  				.duration(500)
  				.attr('y', function (d) {
  					return h - yScale(d);
