@@ -9,7 +9,6 @@
  */
  angular.module('angularD3App')
  .controller('MainCtrl', function ($scope, WeatherDataService, $log) {
-   $log.debug(WeatherDataService.getWeather('Denver'));
 
    $scope.searchTerm = '';
    // graph vars
@@ -29,6 +28,7 @@
   $scope.searchWeather = function () {
     WeatherDataService.getWeather($scope.searchTerm)
     .then(function(data) {
+     $log.debug(data.data);
      $scope.name = data.data.name;
      $scope.humidity = data.data.main.humidity;
      $scope.pressure = data.data.main.pressure;
